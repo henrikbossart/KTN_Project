@@ -28,7 +28,7 @@ public class MessageParser {
         possibleResponses.put("msg", parseMsg());
         possibleResponses.put("names", parseNames());
 
-        System.out.println(possibleResponses.get(request));
+        System.out.println(returnPayload());
 
     }
 
@@ -70,6 +70,18 @@ public class MessageParser {
     public String parseNames() {
         return "These people are currently in the chatroom: ";
     }
+
+    public JSONObject returnPayload() {
+        JSONObject returnPayload = new JSONObject();
+
+        returnPayload.put("request", this.request);
+        returnPayload.put("content", this.content);
+        returnPayload.put("answer", this.possibleResponses.get(this.request));
+
+        return returnPayload;
+    }
+
+
 
 
     public static void main(String[] args) throws ParseException {
