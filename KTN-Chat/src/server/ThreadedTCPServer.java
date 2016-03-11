@@ -9,13 +9,13 @@ import net.sf.json.JSONObject;
 
 public class ThreadedTCPServer {
 	private static ServerSocket serverSocket;
-	private static HashMap<String, Socket> clients;
+	private static HashMap<String, ClientHandler> clients;
 	private static ArrayList<JSONObject> history;
 
 	public static void start() throws Exception {
 		// create the server
 		serverSocket = new ServerSocket(10000);
-		clients = new HashMap<String, Socket>();
+		clients = new HashMap<String, ClientHandler>();
 		history = new ArrayList<JSONObject>();
 
 		while (true) {
@@ -24,7 +24,7 @@ public class ThreadedTCPServer {
 		}
 	}
 
-	public static boolean addClient(String username, Socket clientSocket) {
+	public static boolean addClient(String username, ClientHandler clientSocket) {
 		if (!clients.containsKey(username)) {
 			clients.put(username, clientSocket);
 			return true;
@@ -44,7 +44,8 @@ public class ThreadedTCPServer {
 
 	public static void broadcast(JSONObject message) {
 		for (String key : clients.keySet()) {
-			key.sendMessage(message);
+			ClientHandler client = clients.get(key);
+			client.sendMessage(message);
 		}
 		addHistory(message.getString("sender"), message);
 	}
