@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable {
 				// act based on content of JSONObject
 				switch (clientMessage.getString("request")) {
 					case "login":
-						if (ThreadedTCPServer.addClient(username, client)) {
+						if (ThreadedTCPServer.addClient(username, this)) {
 							// send reply: successful connection
 							sendMessage(createMessage("server","info", "Loging successful"));
 						} else {
@@ -93,3 +93,4 @@ public class ClientHandler implements Runnable {
 		message.put("content", content);
 		return message;
 	}
+}
