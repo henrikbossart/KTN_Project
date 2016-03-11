@@ -38,7 +38,7 @@ public class Chat {
 		if (isServer) {
 			(server = new Server(10000)).start();
 		} else {
-			(client = new Client(address, 10000)).start();
+			(client = new Client(address, 10000, nickname)).start();
 		}
 	}
 }

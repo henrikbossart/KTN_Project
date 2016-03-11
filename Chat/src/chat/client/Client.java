@@ -6,21 +6,26 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.HashMap;
 
 import chat.chat.Chat;
+import org.json.simple.JSONObject;
 
 public class Client extends Thread {
 	private Socket client;
 	private String address;
+    private String nickname;
 	private PrintWriter out;
 	private BufferedReader in;
 	private int port;
 	
-	public Client(String address, int port) {
-		this.address = address;
+	public Client(String address, int port, String nickname) {
+
+        this.address = address;
 		this.port = port;
-	}
-	
+        this.nickname = nickname;
+    }
+
 	@Override
 	public void run() {
 		try {
@@ -43,4 +48,5 @@ public class Client extends Thread {
 			out.println(msg);
 		}
 	}
+
 }

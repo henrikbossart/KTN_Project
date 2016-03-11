@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import chat.chat.Chat;
 
@@ -15,7 +17,8 @@ public class Server extends Thread {
 	private PrintWriter out;
 	private BufferedReader in;
 	private String clientAddress;
-	
+	private List<String> connectedUsers = new ArrayList<>();
+
 	public Server(int port) {
 		try {
 			server = new ServerSocket(port);
