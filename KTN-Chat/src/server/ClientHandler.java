@@ -92,4 +92,5 @@ public class ClientHandler implements Runnable {
 		message.put("response", responseType);
 		message.put("content", content);
 		return message;
+		int hei = 10;
 	}
