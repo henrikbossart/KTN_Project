@@ -14,4 +14,14 @@ public class MessageParser {
         this.content = payload.getString("content");
         this.response = payload.getString("response");
         this.timestamp = payload.getString("timestamp");
+    }
+
+    public String MessagePrinter() {
+        String decodedMessage = timestamp + " (" + sender + "): " + content;
+        return decodedMessage;
+    }
+
+
+
+
 }
