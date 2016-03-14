@@ -26,7 +26,7 @@ public class Client extends Thread {
 	}
 
 	public void run() {
-		
+		lsdkfd
 	}
 
 	public void sendMessage(JSONObject message) {
