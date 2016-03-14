@@ -62,13 +62,12 @@ public class ThreadedTCPServer {
 	}
 	public static void sendHistory(ClientHandler client) {
 		for (JSONObject message : history) {
+			message.put("response", "history");
 			client.sendMessage(message);
 		}
 	}
 	public static String getHelp() {
 		String help = "Heeelp, Heeelp, Heeelp";
 		return help;
-	}
-	
-	
+	}	
 }
