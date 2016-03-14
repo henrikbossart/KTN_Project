@@ -1,5 +1,7 @@
 package client;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -8,13 +10,29 @@ import net.sf.json.JSONObject;
 public class MessageReciever {
 	ArrayList<JSONObject> messages = new ArrayList<JSONObject>();
 	Socket clientSocket;
+	private ObjectInputStream incoming;
 	
 	public MessageReciever(Socket socket){
 		this.clientSocket = socket;
+		try {
+			this.incoming = new ObjectInputStream(clientSocket.getInputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public void recieve(JSONObject message) {
-		messages.add(message);
+	public void run(){
+		try {
+			JSONObject message = (JSONObject) incoming.readObject();
+			messages.add(message);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public JSONObject getMessage(){
