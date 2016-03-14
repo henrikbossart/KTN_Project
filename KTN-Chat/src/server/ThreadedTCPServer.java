@@ -53,4 +53,22 @@ public class ThreadedTCPServer {
 	private static void addHistory(String sender, JSONObject message) {
 		history.add(message);
 	}
+	private static String getNames() {
+		String output = "";
+		for (String name : clients.keySet()) {
+			output += clients.get(name) + "\n";
+		}
+		return output;
+	}
+	private static void sendHistory(ClientHandler client) {
+		for (JSONObject message : history) {
+			client.sendMessage(message);
+		}
+	}
+	private static String getHelp() {
+		String help = "Heeelp, Heeelp, Heeelp";
+		return help;
+	}
+	
+	
 }
