@@ -11,8 +11,9 @@ public class MessageParser {
     private JSONObject payload;
 
 
-    public getPayload(JSONObject payload) {
+    public void setPayload(JSONObject payload) {
         this.payload = payload;
+        payloadChecker();
         payloadSplitter();
     }
 
@@ -25,9 +26,9 @@ public class MessageParser {
 
     public String payloadChecker() {
         if (!payload.containsKey("timestamp") ||
-                payload.containsKey("response") ||
-                payload.containsKey("content") ||
-                payload.containsKey("sender")) {
+                !payload.containsKey("response") ||
+                !payload.containsKey("content") ||
+                !payload.containsKey("sender")) {
             return "payload does not contain all required elements!";
         }
         return toString();
