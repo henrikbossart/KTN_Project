@@ -11,7 +11,7 @@ public class MessageReciever {
 	ArrayList<JSONObject> messages = new ArrayList<JSONObject>();
 	Socket clientSocket;
 	private ObjectInputStream incoming;
-	sdsd
+	
 	
 	public MessageReciever(Socket socket){
 		this.clientSocket = socket;
