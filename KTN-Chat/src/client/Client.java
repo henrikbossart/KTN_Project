@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-
 import net.sf.json.JSONObject;
 
 public class Client extends Thread {
@@ -38,10 +37,14 @@ public class Client extends Thread {
 		}
 	}
 
-	public void createPayload() {
+	public JSONObject createPayload(String request, String content) {
+		JSONObject payload = new JSONObject();
+		payload.put("request", request);
+		payload.put("content", content);
+		return payload;
 
 	}
-	
+
 	public static void errorLogger(String error) {
 		System.out.println(error);
 	}
