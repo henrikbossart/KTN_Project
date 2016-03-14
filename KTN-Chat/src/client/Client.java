@@ -27,6 +27,7 @@ public class Client extends Thread {
 
 	public void run() {
 		
+		
 	}
 
 	public void sendMessage(JSONObject message) {
