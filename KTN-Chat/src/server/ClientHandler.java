@@ -54,15 +54,20 @@ public class ClientHandler implements Runnable {
 
 					case "msg":
 						// tell server to broadcast message
-
+						ThreadedTCPServer.broadcast(clientMessage);
 						break;
 
 					case "names":
 						// send reply with list of user names
+						
+						// ThreadedTCPServer needs a method to format the list of client names that client handler can use
+						
 						break;
 
 					case "help":
 						// send reply with help text
+						
+						// ThreadedTCPServer needs a method that returns a string with help text for how to use the chat program
 						break;
 
 					default:
