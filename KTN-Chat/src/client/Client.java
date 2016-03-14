@@ -27,6 +27,12 @@ public class Client extends Thread {
 
 	public void run() {
 		messageReciever.run();
+		while (true) {
+			if (messageReciever.hasMessage()) {
+				messageParser.setPayload(messageReciever.getMessage());
+			}
+			
+		}
 	}
 
 	public void sendMessage(JSONObject message) {
