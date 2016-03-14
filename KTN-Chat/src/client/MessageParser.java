@@ -13,8 +13,9 @@ public class MessageParser {
 
     public void setPayload(JSONObject payload) {
         this.payload = payload;
-        payloadChecker();
-        payloadSplitter();
+        if (payloadChecker()) {
+            payloadSplitter();
+        }
     }
 
     private void payloadSplitter() {
@@ -24,14 +25,15 @@ public class MessageParser {
         this.sender = payload.getString("sender");
     }
 
-    public String payloadChecker() {
+    public boolean payloadChecker() {
         if (!payload.containsKey("timestamp") ||
                 !payload.containsKey("response") ||
                 !payload.containsKey("content") ||
                 !payload.containsKey("sender")) {
-            return "payload does not contain all required elements!";
+            Client.errorLogger("payload does not contain all required elements!");
+            return false;
         }
-        return toString();
+        return true;
     }
 
     public String toString() {
