@@ -8,15 +8,20 @@ public class MessageParser {
     private String response;
     private String content;
     private String sender;
+    private JSONObject payload;
 
     public MessageParser(JSONObject payload) {
-        this.sender = payload.getString("sender");
-        this.content = payload.getString("content");
-        this.response = payload.getString("response");
-        this.timestamp = payload.getString("timestamp");
+        this.payload = payload;
     }
 
-    public String MessagePrinter() {
+    
+
+
+
+
+
+
+    public String toString() {
         String decodedMessage = timestamp + " (" + sender + "): " + content;
         return decodedMessage;
     }
