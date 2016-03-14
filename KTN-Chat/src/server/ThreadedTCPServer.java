@@ -68,7 +68,5 @@ public class ThreadedTCPServer {
 	public static String getHelp() {
 		String help = "Heeelp, Heeelp, Heeelp";
 		return help;
-	}
-	
-	
+	}	
 }

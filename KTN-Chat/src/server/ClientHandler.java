@@ -38,6 +38,7 @@ public class ClientHandler implements Runnable {
 						if (ThreadedTCPServer.addClient(username, this)) {
 							// send reply: successful connection
 							sendMessage(createMessage("server","info", "Loging successful"));
+							ThreadedTCPServer.sendHistory(this);
 						} else {
 							// send reply: unsuccessful connection, and terminate connection
 							sendMessage(createMessage("server","error", "Username taken"));
@@ -59,19 +60,18 @@ public class ClientHandler implements Runnable {
 
 					case "names":
 						// send reply with list of user names
-						
-						// ThreadedTCPServer needs a method to format the list of client names that client handler can use
+						sendMessage(createMessage("server","names",ThreadedTCPServer.getNames()));
 						
 						break;
 
 					case "help":
 						// send reply with help text
-						
-						// ThreadedTCPServer needs a method that returns a string with help text for how to use the chat program
+						sendMessage(createMessage("server", "help", ThreadedTCPServer.getHelp()));
 						break;
 
 					default:
 						// send reply with unknown command error
+						sendMessage(createMessage("server", "error", "Unknown command"));
 						break;
 				}
 
@@ -89,7 +89,7 @@ public class ClientHandler implements Runnable {
 		}
 	}
 
-	private JSONObject createMessage(String username, String responseType, String content) {
+	public JSONObject createMessage(String username, String responseType, String content) {
 		JSONObject message = new JSONObject();
 		String timestamp = LocalDateTime.now().toString();
 		message.put("timestamp", timestamp);
