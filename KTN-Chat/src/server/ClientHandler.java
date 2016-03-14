@@ -13,6 +13,7 @@ public class ClientHandler implements Runnable {
 	private Socket client;
 	private ObjectInputStream incoming;
 	private ObjectOutputStream outgoing;
+	private String username;
 
 	public ClientHandler(Socket client) {
 		this.client = client;
@@ -31,11 +32,14 @@ public class ClientHandler implements Runnable {
 			// get the incoming message
 			try {
 				JSONObject clientMessage = (JSONObject) incoming.readObject();
-				String username = clientMessage.getString("content");
 				// act based on content of JSONObject
 				switch (clientMessage.getString("request")) {
 					case "login":
-						if (ThreadedTCPServer.addClient(username, this)) {
+						username = clientMessage.getString("content");
+						// check if username is alphanumeric
+						if(!isAlphaNumeric(username)){
+							sendMessage(createMessage("server", "error", "Invalid username, use only alphanumeric characters"));
+						} else if (ThreadedTCPServer.addClient(username, this)) {
 							// send reply: successful connection
 							sendMessage(createMessage("server","info", "Loging successful"));
 							ThreadedTCPServer.sendHistory(this);
@@ -89,7 +93,7 @@ public class ClientHandler implements Runnable {
 		}
 	}
 
-	public JSONObject createMessage(String username, String responseType, String content) {
+	private JSONObject createMessage(String username, String responseType, String content) {
 		JSONObject message = new JSONObject();
 		String timestamp = LocalDateTime.now().toString();
 		message.put("timestamp", timestamp);
@@ -97,5 +101,13 @@ public class ClientHandler implements Runnable {
 		message.put("response", responseType);
 		message.put("content", content);
 		return message;
+	}
+	
+	private boolean isAlphaNumeric(String s){
+	    String pattern= "^[a-zA-Z0-9]*$";
+	        if(s.matches(pattern)){
+	            return true;
+	        }
+	        return false;   
 	}
 }
