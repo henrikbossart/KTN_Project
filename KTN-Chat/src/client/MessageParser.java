@@ -10,16 +10,28 @@ public class MessageParser {
     private String sender;
     private JSONObject payload;
 
-    public MessageParser(JSONObject payload) {
+
+    public getPayload(JSONObject payload) {
         this.payload = payload;
+        payloadSplitter();
     }
 
-    
+    private void payloadSplitter() {
+        this.timestamp = payload.getString("timestamp");
+        this.response = payload.getString("response");
+        this.content = payload.getString("content");
+        this.sender = payload.getString("sender");
+    }
 
-
-
-
-
+    public String payloadChecker() {
+        if (!payload.containsKey("timestamp") ||
+                payload.containsKey("response") ||
+                payload.containsKey("content") ||
+                payload.containsKey("sender")) {
+            return "payload does not contain all required elements!";
+        }
+        return toString();
+    }
 
     public String toString() {
         String decodedMessage = timestamp + " (" + sender + "): " + content;
