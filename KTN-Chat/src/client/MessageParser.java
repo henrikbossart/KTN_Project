@@ -29,7 +29,7 @@ public class MessageParser {
                 !payload.containsKey("response") ||
                 !payload.containsKey("content") ||
                 !payload.containsKey("sender")) {
-            return "payload does not contain all required elements!";
+            Client.errorLogger("payload does not contain all required elements!");
         }
         return toString();
     }
