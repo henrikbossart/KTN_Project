@@ -32,9 +32,11 @@ public class MainWindow extends JFrame {
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
+
+
     }
 
-    public void log(String msg) {
+    public static void log(String msg) {
         chatLog.setText(chatLog.getText() + msg + "\n");
     }
 
