@@ -20,6 +20,7 @@ public class MainWindow extends JFrame {
     private JButton send;
     private JTextField input;
     private JTextArea chatLog;
+    Client client;
 
     public MainWindow() {
         this.setTitle("Chat");
@@ -33,10 +34,12 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
 
+        this.client = new Client();
+
 
     }
 
-    public static void log(String msg) {
+    public void log(String msg) {
         chatLog.setText(chatLog.getText() + msg + "\n");
     }
 

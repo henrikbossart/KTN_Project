@@ -86,6 +86,7 @@ public class OptionWindow extends JFrame{
                 }
             } else if(e.getSource() == isServer) {
                 if(isServer.isSelected()) {
+
                     address.setEditable(false);
                     lastAddress = address.getText();
                     address.setText("");
