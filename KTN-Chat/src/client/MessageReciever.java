@@ -1,5 +1,6 @@
 package client;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -11,6 +12,7 @@ public class MessageReciever implements Runnable {
 	ArrayList<JSONObject> messages = new ArrayList<JSONObject>();
 	Socket clientSocket;
 	private ObjectInputStream incoming;
+	private boolean running = false;
 	
 	
 	public MessageReciever(Socket socket){
@@ -23,16 +25,28 @@ public class MessageReciever implements Runnable {
 		}
 	}
 
-	public void run(){
-		try {
-			JSONObject message = (JSONObject) incoming.readObject();
-			messages.add(message);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void run() {
+		running = true;
+		while (running) {
+			try {
+				boolean complete = false;
+				JSONObject message = null;
+				while (!complete) {
+					try {
+						message = (JSONObject) incoming.readObject();
+					} catch (EOFException e) {
+						complete = true;
+					}
+
+				}
+				messages.add(message);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -53,5 +67,9 @@ public class MessageReciever implements Runnable {
 			return message;
 		}
 		return null;
+	}
+
+	public void disconnect() {
+		running = false;
 	}
 }

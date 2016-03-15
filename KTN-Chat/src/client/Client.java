@@ -68,5 +68,7 @@ public class Client extends Thread {
 	public void disconnect () {
 		sendMessage(createPayload("logout", username));
 		connected = false;
+		messageReciever.disconnect();
 	}
+
 }
