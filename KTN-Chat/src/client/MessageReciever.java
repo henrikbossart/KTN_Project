@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import net.sf.json.JSONObject;
 
-public class MessageReciever {
+public class MessageReciever implements Runnable {
 	ArrayList<JSONObject> messages = new ArrayList<JSONObject>();
 	Socket clientSocket;
 	private ObjectInputStream incoming;

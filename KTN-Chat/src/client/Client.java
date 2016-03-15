@@ -12,13 +12,16 @@ public class Client extends Thread {
 	private MessageReciever messageReciever;
 	private MessageParser messageParser;
 	private ObjectOutputStream outgoing;
+	private String username;
+	private boolean connected;
 
-	public Client(String address, int port) {
+	public Client(String address, int port, String username) {
 		try {
 			client = new Socket(InetAddress.getByName(address), port);
-			messageReciever = new MessageReciever(client);
+			this.messageReciever = new MessageReciever(client);
 			messageParser = new MessageParser();
 			this.outgoing = new ObjectOutputStream(client.getOutputStream());
+			this.username = username;
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -26,12 +29,19 @@ public class Client extends Thread {
 	}
 
 	public void run() {
-		messageReciever.run();
-		while (true) {
+		sendMessage(createPayload("login", username));
+		new Thread(this.messageReciever).start();
+		connected = true;
+		while (connected) {
 			if (messageReciever.hasMessage()) {
 				messageParser.setPayload(messageReciever.getMessage());
 			}
 			
+		}
+		try {
+			client.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -53,5 +63,10 @@ public class Client extends Thread {
 
 	public static void errorLogger(String error) {
 		System.out.println(error);
+	}
+
+	public void disconnect () {
+		sendMessage(createPayload("logout", username));
+		connected = false;
 	}
 }

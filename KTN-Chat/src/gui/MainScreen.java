@@ -1,18 +1,15 @@
 package gui;
 
+import client.Client;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class MainScreen extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -25,6 +22,7 @@ public class MainScreen extends JFrame {
 	private JTextField input;
 	private JTextArea chatLog;
 	private JTextArea users;
+	private Client client;
 
 	private void init() {
 		this.setTitle("Chat");
@@ -65,7 +63,8 @@ public class MainScreen extends JFrame {
 	
 	private JPanel input() {
 		JPanel panel = new JPanel(new BorderLayout(5,5));
-		send = new JButton("Send");
+		send = new JButton(actions);
+		send.setText("Send");
 		input = new JTextField();
 		panel.add(input, BorderLayout.CENTER);
 		panel.add(send, BorderLayout.EAST);
@@ -77,7 +76,6 @@ public class MainScreen extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    chatLog.append(input.getText() + "\n");
                     input.setText("");
                 }
             }
@@ -101,8 +99,10 @@ public class MainScreen extends JFrame {
 		JPanel panel = new JPanel(new GridLayout(3,2));
 		JLabel usernameLabel = new JLabel("Username");
 		JLabel addressLabel = new JLabel("IP-Address");
-		login = new JButton("login");
-		logout = new JButton("logout");
+		login = new JButton(actions);
+		login.setText("Login");
+		logout = new JButton(actions);
+		logout.setText("Logout");
 		username = new JTextField(10);
 		address = new JTextField(15);
 		panel.add(usernameLabel);
@@ -113,4 +113,21 @@ public class MainScreen extends JFrame {
 		panel.add(logout);
 		return panel;
 	}
+
+	private Action actions = new AbstractAction() {
+		private static final long serialVersionUID = 1L;
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == login && username.getText().length() > 0 && address.getText().length() > 0) {
+				client = new Client(address.getText(), 10000, username.getText());
+				client.start();
+			}
+			if (e.getSource() == send && input.getText().length() > 0) {
+				client.sendMessage(client.createPayload("msg", input.getText()));
+			}
+			if (e.getSource() == logout) {
+				client.disconnect();
+			}
+		}
+	};
 }
