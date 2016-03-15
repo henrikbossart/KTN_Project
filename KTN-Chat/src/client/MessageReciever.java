@@ -13,9 +13,8 @@ public class MessageReciever implements Runnable {
 	Socket clientSocket;
 	private ObjectInputStream incoming;
 	private boolean running = false;
-	
-	
-	public MessageReciever(Socket socket){
+
+	public MessageReciever(Socket socket) {
 		this.clientSocket = socket;
 		try {
 			this.incoming = new ObjectInputStream(clientSocket.getInputStream());
@@ -39,7 +38,9 @@ public class MessageReciever implements Runnable {
 					}
 
 				}
-				messages.add(message);
+				if (message != null) {
+					messages.add(message);
+				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -49,19 +50,19 @@ public class MessageReciever implements Runnable {
 			}
 		}
 	}
-	
-	public boolean hasMessage(){
-		if (messages.size() < 1){
+
+	public boolean hasMessage() {
+		if (messages.size() < 1) {
 			return false;
-		}else{
+		} else {
 			return true;
-			
+
 		}
-		
+
 	}
-	
-	public JSONObject getMessage(){
-		if (! (messages.size() == 0)){
+
+	public JSONObject getMessage() {
+		if (!(messages.size() == 0)) {
 			JSONObject message = messages.get(0);
 			messages.remove(0);
 			return message;
