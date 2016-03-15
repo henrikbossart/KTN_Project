@@ -36,6 +36,16 @@ public class MessageReciever {
 		}
 	}
 	
+	public boolean hasMessage(){
+		if (messages.size() < 1){
+			return false;
+		}else{
+			return true;
+			
+		}
+		
+	}
+	
 	public JSONObject getMessage(){
 		if (! (messages.size() == 0)){
 			JSONObject message = messages.get(0);
